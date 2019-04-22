@@ -1,6 +1,8 @@
 package com.cloudvast.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.websocket.OnClose;
@@ -13,6 +15,7 @@ import javax.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Component;
+
 @Slf4j
 //@ServerEndpoint("/websocket/{user}")
 @ServerEndpoint(value = "/websocket")
@@ -37,7 +40,11 @@ public class WebSocketServer {
 //        log.info("有新连接加入！当前在线人数为" + getOnlineCount());
         try {
             sendMessage("连接成功");
-        } catch (IOException e) {
+//            Map<String, Object> map = new HashMap<>();
+//            map.put("msg", "连接成功");
+//            map.put("OnlineCount", getOnlineCount());
+//            sendMessageObj(map);
+        } catch (Exception e) {
 //            log.error("websocket IO异常");
         }
     }
@@ -92,6 +99,9 @@ public class WebSocketServer {
         this.session.getBasicRemote().sendText(message);
     }
 
+    public void sendMessageObj(Map<String, Object> message_obj) throws Exception{
+        this.session.getBasicRemote().sendObject(message_obj);
+    }
 
     /**
      * 群发自定义消息
